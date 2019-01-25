@@ -1,6 +1,6 @@
-import { validate, Type } from "validate-typescript"
-import { ID } from "validate-typescript/lib/extensions"
-import {  All, Any, Options, Primitive, Optional } from "validate-typescript/lib/validators"
+import { validate, Type } from "../.."
+import { ID } from "../../lib/extensions"
+import { All, Any, Options, Primitive, Optional } from "../../lib/validators"
 
 import { test } from "ava"
 
@@ -74,7 +74,7 @@ test('Literal Number', t => {
 });
 
 test('Literal String', t => {
-    
+
     const schema = "123";
     const vector = [...std_vector, schema];
     const tests = gen_test_vectors(schema, vector, [vector.length - 1]);
@@ -85,7 +85,7 @@ test('Literal String', t => {
 });
 
 test('Literal Symbol', t => {
-    
+
     const schema = Symbol();
     const vector = [...std_vector, schema];
     const tests = gen_test_vectors(schema, vector, [vector.length - 1]);
@@ -107,7 +107,7 @@ test('Literal Null', t => {
 });
 
 test('Literal Undefined', t => {
-    
+
     const schema = undefined;
     const vector = [...std_vector, schema];
     const tests = gen_test_vectors(schema, vector, [0, vector.length - 1]);
@@ -160,7 +160,7 @@ test('Primitive String', t => {
 });
 
 test('Primitive Symbol', t => {
-    
+
     const schema = Primitive(Symbol);
     const vector = std_vector;
     const tests = gen_test_vectors(schema, vector, [9]);
@@ -171,7 +171,7 @@ test('Primitive Symbol', t => {
 });
 
 test('Primitive Object', t => {
-    
+
     const schema = Primitive(Object);
     const vector = std_vector;
     const tests = gen_test_vectors(schema, vector, [4, 7]);
@@ -182,7 +182,7 @@ test('Primitive Object', t => {
 });
 
 test('Primitive Array', t => {
-    
+
     const schema = Primitive(Array);
     const vector = std_vector;
     const tests = gen_test_vectors(schema, vector, [5, 8]);
@@ -246,7 +246,7 @@ test('Type Date', t => {
 
 test('Type Custom', t => {
 
-    class Custom {}
+    class Custom { }
 
     const schema = Type(Custom);
     const vector = [...std_vector, new Custom()];
@@ -271,10 +271,10 @@ test('Valid Fields', t => {
         name: Primitive(String),
         age: Primitive(Number),
     },
-    {
-        name: "name",
-        age: 20,
-    }));
+        {
+            name: "name",
+            age: 20,
+        }));
 
 });
 
@@ -284,28 +284,28 @@ test('Invalid Fields', t => {
         name: Primitive(String),
         age: Primitive(Number),
     },
-    {
-        name: 10,
-        age: 20,
-    }));
+        {
+            name: 10,
+            age: 20,
+        }));
 
     t.throws(() => validate({
         name: Primitive(String),
         age: Primitive(Number),
     },
-    {
-        name: "name",
-        age: "age",
-    }));
+        {
+            name: "name",
+            age: "age",
+        }));
 
     t.throws(() => validate({
         name: Primitive(String),
         age: Primitive(Number),
     },
-    {
-        name: 10,
-        age: "age",
-    }));
+        {
+            name: 10,
+            age: "age",
+        }));
 
 });
 
@@ -315,25 +315,25 @@ test('Missing Fields', t => {
         name: Primitive(String),
         age: Primitive(Number),
     },
-    {
-        name: "name",
-    }));
+        {
+            name: "name",
+        }));
 
     t.throws(() => validate({
         name: Primitive(String),
         age: Primitive(Number),
     },
-    {
-        age: 20,
-    }));
+        {
+            age: 20,
+        }));
 
     t.throws(() => validate({
         name: Primitive(String),
         age: Primitive(Number),
     },
-    {
+        {
 
-    }));
+        }));
 
 });
 
@@ -343,11 +343,11 @@ test('Extra Fields', t => {
         name: Primitive(String),
         age: Primitive(Number),
     },
-    {
-        name: "name",
-        age: 20,
-        gender: "female"
-    }));
+        {
+            name: "name",
+            age: 20,
+            gender: "female"
+        }));
 
 });
 
@@ -355,10 +355,10 @@ test('Empty Schema', t => {
 
     t.notThrows(() => validate({
     },
-    {
-        name: "name",
-        age: 20,
-    }));
+        {
+            name: "name",
+            age: 20,
+        }));
 
 });
 
@@ -372,14 +372,14 @@ test('Nested Fields', t => {
             weight: Type(Number)
         }
     },
-    {
-        name: "name",
-        age: 20,
-        metrics: {
-            height: 1.8,
-            weight: 60
-        }
-    }));
+        {
+            name: "name",
+            age: 20,
+            metrics: {
+                height: 1.8,
+                weight: 60
+            }
+        }));
 
 });
 
@@ -393,14 +393,14 @@ test('Invalid Nested Fields', t => {
             weight: Type(Number)
         }
     },
-    {
-        name: "name",
-        age: 20,
-        metrics: {
-            height: "1.8",
-            weight: 60
-        }
-    }));
+        {
+            name: "name",
+            age: 20,
+            metrics: {
+                height: "1.8",
+                weight: 60
+            }
+        }));
 
     t.throws(() => validate({
         name: Primitive(String),
@@ -410,14 +410,14 @@ test('Invalid Nested Fields', t => {
             weight: Type(Number)
         }
     },
-    {
-        name: "name",
-        age: 20,
-        metrics: {
-            height: 1.8,
-            weight: "60"
-        }
-    }));
+        {
+            name: "name",
+            age: 20,
+            metrics: {
+                height: 1.8,
+                weight: "60"
+            }
+        }));
 
     t.throws(() => validate({
         name: Primitive(String),
@@ -427,14 +427,14 @@ test('Invalid Nested Fields', t => {
             weight: Type(Number)
         }
     },
-    {
-        name: "name",
-        age: 20,
-        metrics: {
-            height: "1.8",
-            weight: "60"
-        }
-    }));
+        {
+            name: "name",
+            age: 20,
+            metrics: {
+                height: "1.8",
+                weight: "60"
+            }
+        }));
 
 });
 
@@ -448,13 +448,13 @@ test('Missing Nested Fields', t => {
             weight: Type(Number)
         }
     },
-    {
-        name: "name",
-        age: 20,
-        metrics: {
-            weight: 60
-        }
-    }));
+        {
+            name: "name",
+            age: 20,
+            metrics: {
+                weight: 60
+            }
+        }));
 
     t.throws(() => validate({
         name: Primitive(String),
@@ -464,13 +464,13 @@ test('Missing Nested Fields', t => {
             weight: Type(Number)
         }
     },
-    {
-        name: "name",
-        age: 20,
-        metrics: {
-            height: 1.8,
-        }
-    }));
+        {
+            name: "name",
+            age: 20,
+            metrics: {
+                height: 1.8,
+            }
+        }));
 
     t.throws(() => validate({
         name: Primitive(String),
@@ -480,12 +480,12 @@ test('Missing Nested Fields', t => {
             weight: Type(Number)
         }
     },
-    {
-        name: "name",
-        age: 20,
-        metrics: {
-        }
-    }));
+        {
+            name: "name",
+            age: 20,
+            metrics: {
+            }
+        }));
 
     t.throws(() => validate({
         name: Primitive(String),
@@ -495,10 +495,10 @@ test('Missing Nested Fields', t => {
             weight: Type(Number)
         }
     },
-    {
-        name: "name",
-        age: 20,
-    }));
+        {
+            name: "name",
+            age: 20,
+        }));
 
 });
 
@@ -518,20 +518,20 @@ test('Multi Nested Fields', t => {
             },
         }
     },
-    {
-        name: "name",
-        age: 20,
-        metrics: {
-            height: {
-                value: 1.8,
-                unit: "m"
-            },
-            weight: {
-                value: 60,
-                unit: "kg"
+        {
+            name: "name",
+            age: 20,
+            metrics: {
+                height: {
+                    value: 1.8,
+                    unit: "m"
+                },
+                weight: {
+                    value: 60,
+                    unit: "kg"
+                }
             }
-        }
-    }));
+        }));
 
 });
 
