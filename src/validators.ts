@@ -7,27 +7,27 @@ export enum ValidationOptions {
     all,
 }
 
-export type ValidationMethod<T> = (input: any) => T;
+export type ValidationMethod<T> = (input: any, property: string) => T;
 
 export function Primitive<T>(ctor: (() => T), name: string = Primitive.name): T {
     return Type(ctor, name);
 }
 
 export function Type<A, B>(ctor: ((() => A) | (new () => B)), name: string = Type.name): B {
-        
+
     if (isNullOrUndefined(ctor) || isNullOrUndefined(ctor.prototype))
         throw new Error('Schema error, not a valid type.');
 
-    let result = <any>(() => {});
+    let result = <any>(() => { });
     result[sym.Validator] = sym.TypeValidator;
     result[sym.TypeValidator] = ctor.prototype.constructor.name;
     result[sym.Metadata] = { name };
     return result as B;
 }
 
-export function Options<T>(schemas: T[], name: string = Options.name, 
-                           option: ValidationOptions = ValidationOptions.any): T {
-    let result = <any>(() => {});
+export function Options<T>(schemas: T[], name: string = Options.name,
+    option: ValidationOptions = ValidationOptions.any): T {
+    let result = <any>(() => { });
     result[sym.Validator] = sym.OptionsValidator;
     result[sym.OptionsValidator] = { schemas, option };
     result[sym.Metadata] = { name };
@@ -51,7 +51,7 @@ export function Nullable<T>(schema: T, name: string = Nullable.name): T | null {
 }
 
 export function Validator<T>(method: ValidationMethod<T>, name: string = Validator.name): T {
-    const result = <any>(() => {});
+    const result = <any>(() => { });
     result[sym.Validator] = sym.CustomValidator;
     result[sym.CustomValidator] = method;
     result[sym.Metadata] = { name };
