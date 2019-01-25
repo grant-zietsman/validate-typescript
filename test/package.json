@@ -14,5 +14,8 @@
   "private": true,
   "dependencies": {
     "ava": "^0.25.0"
+  },
+  "devDependencies": {
+    "typescript": "^2.9.2"
   }
 }
