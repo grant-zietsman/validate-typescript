@@ -330,20 +330,19 @@ function ValidateRecursive<T>(schema: T, value: any, property: string): T {
  * @returns {T} The original value cast to type T if validation succeeded, else an error is 
  * thrown.
  */
-export function validate<T>(schema: T, value: any, name: string = '', log: any = console.log): T {    
+export function validate<T>(schema: T, value: any, name: string = '', log: any = console.log): T {
 
     try {
-        ValidateRecursive(schema, value, name);    
+        return ValidateRecursive(schema, value, name);
     } catch(error) {
 
         if (error instanceof ValidationError) {
             if (!isUndefined(log)) {
-				log('\n' + error.trace + '\n');
-            }            
+                log('\n' + error.trace + '\n');
+            }
         }
 
         throw error;
-    }   
+    }
 
-    return value;
 }
